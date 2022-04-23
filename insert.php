@@ -36,9 +36,9 @@ if( isset($_POST["submit"]) ) {
 </head>
 <body>
 
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <ul>
-            <li><input type="text" name="name" id="name" placeholder="Name" required></li>
+            <li><input type="text" name="name" id="name" placeholder="Name" autocomplete="off" required></li>
         </ul>
         <ul>
             <li><input type="date" name="date" id="date" placeholder="Birthday"></li>
@@ -47,7 +47,7 @@ if( isset($_POST["submit"]) ) {
             <li><input type="text" name="prefecture" id="prefecture" placeholder="Prefecture"></li>
         </ul>
         <ul>
-            <li><input type="file" name="picture" id="picture" placeholder="Photo"></li>
+            <li><input type="file" name="picture" id="picture"></li>
         </ul>
         <ul>
             <button name="submit">Add</button>

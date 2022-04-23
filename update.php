@@ -42,10 +42,11 @@ if( isset($_POST["submit"]) ) {
 </head>
 <body>
 
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $va["id"]; ?>">
+        <input type="hidden" name="oldPicture" value="<?= $va["picture"]; ?>">
         <ul>
-            <li><input type="text" name="name" id="name" placeholder="Name" value="<?= $va["name"]; ?>" required></li>
+            <li><input type="text" name="name" id="name" placeholder="Name" value="<?= $va["name"]; ?>" autocomplete="off" required></li>
         </ul>
         <ul>
             <li><input type="date" name="date" id="date" placeholder="Birthday" <?= $va["date"]; ?>></li>
@@ -54,7 +55,8 @@ if( isset($_POST["submit"]) ) {
             <li><input type="text" name="prefecture" id="prefecture" placeholder="Prefecture" <?= $va["prefecture"]; ?>></li>
         </ul>
         <ul>
-            <li><input type="file" name="picture" id="picture" placeholder="Photo" <?= $va["picture"]; ?>></li>
+            <img src="img/<?= $va['picture']; ?>" width=100>
+            <li><input type="file" name="picture" id="picture"></li>
         </ul>
         <ul>
             <button name="submit">Update</button>
