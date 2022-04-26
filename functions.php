@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use JetBrains\PhpStorm\Internal\ReturnTypeContract;
 
 $conn = mysqli_connect("localhost", "root", "", "phpdasar");
 
@@ -137,13 +139,50 @@ function upload() {
 }
 
 // Function to search
-function search($keyword){
+function search($keyword) {
     $query = "SELECT * FROM seiyuu
                 WHERE
             name LIKE '%$keyword%'
             ";
     
     return query($query);
+}
+
+// Function registration
+function registration($data) {
+    global $conn;
+
+    $username = strtolower(stripslashes($data["username"]));
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
+
+    // check if there is same username
+    $result = mysqli_query($conn, "SELECT username FROM users WHERE username = '$username'");
+
+    if( mysqli_fetch_assoc($result) ) {
+        echo "<script>
+                alert('Username has been taken!')
+              </script>";
+        return false;
+    }
+
+    // check confirmation password
+    if( $password !== $password2 ) {
+        echo "<script>
+                alert('Confirmation password do not match!')
+              </script>";
+        
+        return false;
+    }
+
+    // encryption 
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    
+    // add new user to database
+    mysqli_query($conn, "INSERT INTO users VALUES ('','$username', '$password')");
+
+    return mysqli_affected_rows($conn);
+
 }
 
 ?>
