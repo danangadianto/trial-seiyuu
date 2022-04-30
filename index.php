@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if( !isset($_SESSION["login"]) ) {
+    header("Location: login.php");
+    exit;
+}
+
 require 'functions.php';
 
 $seiyuu = query("SELECT * FROM seiyuu LIMIT $firstData, $totalDataPerPage");
@@ -28,6 +35,7 @@ if( isset($_POST["search"]) ) {
 </head>
 
 <body>
+    <a href="logout.php">Sign out</a>
 
     <div class="container mt-5">
 
