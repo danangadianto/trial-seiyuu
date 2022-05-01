@@ -1,12 +1,29 @@
 <?php 
 session_start();
 
+require 'functions.php';
+
+// check cookie
+if( isset($_COOKIE["id"]) && isset($_COOKIE["key"]) ) {
+    $id = $_COOKIE["id"];
+    $key = $_COOKIE["key"];
+
+    // take username based on id
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE id = $id");
+    $row = mysqli_fetch_assoc($result);
+
+    // check cookie and username
+    if( $key === hash('sha256', $row["username"]) ) {
+        $_SESSION["login"] = true;
+    }
+}
+
 if( isset($_SESSION["login"]) ) {
     header("Location: index.php");
     exit;
 }
 
-require 'functions.php';
+
 
 if( isset($_POST["submit"]) ) {
 
@@ -23,6 +40,14 @@ if( isset($_POST["submit"]) ) {
         if( password_verify($password, $row["password"]) ) {
             // set session
             $_SESSION["login"] = true;
+
+            // check remember me
+            if( isset($_POST['remember']) ) {
+                // create cookie
+                setcookie('id', $row['id'], time()+300);
+                setcookie('key', hash('sha256', $row['username']), time()+300);
+            }
+
             header("Location: index.php");
             exit;
         }
@@ -51,6 +76,7 @@ if( isset($_POST["submit"]) ) {
             <form action="" method="POST">
                 <input type="text" placeholder="Email address or phone number"  name="username" class="input" required>
                 <input type="password" placeholder="Password" name="password" class="input" required>
+                <input type="checkbox" name="remember" id="remember"><label for="remember">Remember me</label>
                 <button type="submit" name="submit" value="Log in">Log in</buttonS>
             </form>
             <div class="links">
