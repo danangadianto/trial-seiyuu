@@ -30,13 +30,14 @@ if( isset($_POST["submit"]) ) {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+    $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+    $result = mysqli_num_rows($query);
 
     // check username
-    if( mysqli_num_rows($result) === 1 ) {
+    if( $result === 1 ) {
 
         // check password
-        $row = mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($query);
         if( password_verify($password, $row["password"]) ) {
             // set session
             $_SESSION["login"] = true;
@@ -44,8 +45,8 @@ if( isset($_POST["submit"]) ) {
             // check remember me
             if( isset($_POST['remember']) ) {
                 // create cookie
-                setcookie('id', $row['id'], time()+300);
-                setcookie('key', hash('sha256', $row['username']), time()+300);
+                setcookie('id', $row['id'], time()+60*60*24*14); 
+                setcookie('key', hash('sha256', $row['username']), time()+60*60*24*14);
             }
 
             header("Location: index.php");
@@ -53,6 +54,10 @@ if( isset($_POST["submit"]) ) {
         }
 
     }
+
+    $hasNoResult = true;
+    
+
 }
 
 ?>
@@ -73,6 +78,10 @@ if( isset($_POST["submit"]) ) {
         </div>
         <div class="input-box">
             <p>Log in to Seiyuu Paradise</p>
+            <?php if( isset($hasNoResult) ) : ?>
+                <p style="color: red; font-style:italic;">Username/password wrong!</p>
+            <?php endif; ?>
+
             <form action="" method="POST">
                 <input type="text" placeholder="Email address or phone number"  name="username" class="input" required>
                 <input type="password" placeholder="Password" name="password" class="input" required>
