@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-require 'functions.php';
+require '../functions/functions.php';
 
 // check cookie
 if( isset($_COOKIE["id"]) && isset($_COOKIE["key"]) ) {
@@ -19,7 +19,7 @@ if( isset($_COOKIE["id"]) && isset($_COOKIE["key"]) ) {
 }
 
 if( isset($_SESSION["login"]) ) {
-    header("Location: index.php");
+    header("Location: ../content/index.php");
     exit;
 }
 
@@ -49,7 +49,7 @@ if( isset($_POST["submit"]) ) {
                 setcookie('key', hash('sha256', $row['username']), time()+60*60*24*14);
             }
 
-            header("Location: index.php");
+            header("Location: ../content/index.php");
             exit;
         }
 
@@ -69,7 +69,7 @@ if( isset($_POST["submit"]) ) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     <div class="container">
@@ -90,7 +90,7 @@ if( isset($_POST["submit"]) ) {
             </form>
             <div class="links">
                 <a href="">Forgot password</a>
-                <a href="regis.php">Sign up</a>
+                <a href="../regis-login/regis.php">Sign up</a>
             </div>
         </div>
     </div>

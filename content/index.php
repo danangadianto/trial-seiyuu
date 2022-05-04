@@ -2,11 +2,11 @@
 session_start();
 
 if( !isset($_SESSION["login"]) ) {
-    header("Location: login.php");
+    header("Location: ../regis-login/login.php");
     exit;
 }
 
-require 'functions.php';
+require '../functions/functions.php';
 
 $seiyuu = query("SELECT * FROM seiyuu LIMIT $firstData, $totalDataPerPage");
 
@@ -24,7 +24,7 @@ if( isset($_POST["search"]) ) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Document</title>
     <style>
         ul li {
@@ -35,13 +35,13 @@ if( isset($_POST["search"]) ) {
 </head>
 
 <body>
-    <a href="logout.php">Sign out</a>
+    <a href="../regis-login/logout.php">Sign out</a>
 
     <div class="container mt-5">
 
         <h1>Japanese Seiyuu</h1>
         <!-- insert -->
-        <a href="insert.php">Add New Seiyuu</a>
+        <a href="../features/insert.php">Add New Seiyuu</a>
 
         <!-- searchbar -->
         <form action="" method="POST">
@@ -66,13 +66,13 @@ if( isset($_POST["search"]) ) {
                 <tbody>
                     <tr>
                         <td><?= $num++ ?></td>
-                        <td><img src="img/<?= $va["picture"]; ?>" width="85px"></td>
+                        <td><img src="../img/<?= $va["picture"]; ?>" width="85px"></td>
                         <td><?= $va["name"]; ?></td>
                         <td><?= $va["date"]; ?></td>
                         <td><?= $va["prefecture"]; ?></td>
                         <td>
-                            <a href="update.php?id=<?= $va["id"] ?>">Update</a> |
-                            <a href="delete.php?id=<?= $va["id"]; ?>" onclick="return confirm('Are You Sure?'); ">Delete</a>
+                            <a href="../features/update.php?id=<?= $va["id"] ?>">Update</a> |
+                            <a href="../features/delete.php?id=<?= $va["id"]; ?>" onclick="return confirm('Are You Sure?'); ">Delete</a>
                         </td>
                     </tr>
                 </tbody>

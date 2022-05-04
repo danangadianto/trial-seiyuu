@@ -2,11 +2,11 @@
 session_start();
 
 if( !isset($_SESSION["login"]) ) {
-    header("Location: login.php");
+    header("Location: ../regis-login/login.php");
     exit;
 }
 
-require 'functions.php';
+require '../functions/functions.php';
 
 // check if button is clicked
 if( isset($_POST["submit"]) ) {
@@ -16,14 +16,14 @@ if( isset($_POST["submit"]) ) {
         echo "
             <script>
                 alert('Data has been added succsessfully!');
-                document.location.href = 'index.php';
+                document.location.href = '../content/index.php';
             </script>
         ";
     } else {
         echo "
             <script>
                 alert('Failed!');
-                document.location.href = 'index.php';
+                document.location.href = '../content/index.php';
             </script>
         ";
     }

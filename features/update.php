@@ -2,11 +2,11 @@
 session_start();
 
 if( !isset($_SESSION["login"]) ) {
-    header("Location: login.php");
+    header("Location: ../regis-login/login.php");
     exit;
 }
 
-require 'functions.php';
+require '../functions/functions.php';
 
 // take data from url
 $id = $_GET["id"];
@@ -22,14 +22,14 @@ if( isset($_POST["submit"]) ) {
         echo "
             <script>
                 alert('Data has been updated succsessfully!');
-                document.location.href = 'index.php';
+                document.location.href = '../content/index.php';
             </script>
         ";
     } else {
         echo "
             <script>
                 alert('Failed!');
-                document.location.href = 'index.php';
+                document.location.href = '../content/index.php';
             </script>
         ";
     }
@@ -62,7 +62,7 @@ if( isset($_POST["submit"]) ) {
             <li><input type="text" name="prefecture" id="prefecture" placeholder="Prefecture" <?= $va["prefecture"]; ?>></li>
         </ul>
         <ul>
-            <img src="img/<?= $va['picture']; ?>" width=100>
+            <img src="../img/<?= $va['picture']; ?>" width=100>
             <li><input type="file" name="picture" id="picture"></li>
         </ul>
         <ul>

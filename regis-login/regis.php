@@ -1,6 +1,6 @@
 <?php 
 
-require 'functions.php';
+require '../functions/functions.php';
 
 if( isset($_POST["register"]) ) {
 
@@ -12,7 +12,7 @@ if( isset($_POST["register"]) ) {
         echo mysqli_error($conn);
     }
 
-    header("Location: login.php");
+    header("Location: ../regis-login/login.php");
     exit;
 }
 
