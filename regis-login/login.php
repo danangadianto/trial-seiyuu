@@ -3,62 +3,9 @@ session_start();
 
 require '../functions/functions.php';
 
-// check cookie
-if( isset($_COOKIE["id"]) && isset($_COOKIE["key"]) ) {
-    $id = $_COOKIE["id"];
-    $key = $_COOKIE["key"];
+require '../functions/logic-login.php';
 
-    // take username based on id
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE id = $id");
-    $row = mysqli_fetch_assoc($result);
-
-    // check cookie and username
-    if( $key === hash('sha256', $row["username"]) ) {
-        $_SESSION["login"] = true;
-    }
-}
-
-if( isset($_SESSION["login"]) ) {
-    header("Location: ../content/index.php");
-    exit;
-}
-
-
-
-if( isset($_POST["submit"]) ) {
-
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
-    $result = mysqli_num_rows($query);
-
-    // check username
-    if( $result === 1 ) {
-
-        // check password
-        $row = mysqli_fetch_assoc($query);
-        if( password_verify($password, $row["password"]) ) {
-            // set session
-            $_SESSION["login"] = true;
-
-            // check remember me
-            if( isset($_POST['remember']) ) {
-                // create cookie
-                setcookie('id', $row['id'], time()+60*60*24*14); 
-                setcookie('key', hash('sha256', $row['username']), time()+60*60*24*14);
-            }
-
-            header("Location: ../content/index.php");
-            exit;
-        }
-
-    }
-
-    $hasNoResult = true;
-    
-
-}
+require '../functions/logic-regis.php';
 
 ?>
 
@@ -69,30 +16,51 @@ if( isset($_POST["submit"]) ) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="logo.png" alt="" width="190">
-        </div>
-        <div class="input-box">
-            <p>Log in to Seiyuu Paradise</p>
-            <?php if( isset($hasNoResult) ) : ?>
-                <p style="color: red; font-style:italic;">Username/password wrong!</p>
-            <?php endif; ?>
+    <section>
+        <div class="container">
+            <div class="user signinBx">
+                <div class="imgBx"><img src="../img/20220519_205907.jpg"></div>
+                <div class="formBx">
+                    <form action="" method="POST">
+                        <h2>Sign In</h2>
+                        <?php if( isset($hasNoResult) ) : ?>
+                            <p style="color: red; font-style:italic;">Username/password wrong!</p>
+                        <?php endif; ?>
+                        <input type="text" placeholder="Username" name="username" required>
+                        <input type="password" placeholder="Password" name="password" required>
+                        <input type="checkbox" name="remember" id="remember" style="width: 10%;"><label for="remember">Remember me</label><br>
+                        <button type="submit" name="submit" value="Log in">Login</button>
+                        <p class="signup">don't have an account? <a href="#" onclick="toggleForm();">Sign Up</a> </p>
+                    </form>
+                </div>
+            </div>
 
-            <form action="" method="POST">
-                <input type="text" placeholder="Email address or phone number"  name="username" class="input" required>
-                <input type="password" placeholder="Password" name="password" class="input" required>
-                <input type="checkbox" name="remember" id="remember"><label for="remember">Remember me</label>
-                <button type="submit" name="submit" value="Log in">Log in</buttonS>
-            </form>
-            <div class="links">
-                <a href="">Forgot password</a>
-                <a href="../regis-login/regis.php">Sign up</a>
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form action="" method="POST">
+                        <h2>Create an account</h2>
+                        <input type="text" placeholder="Username" name="username" required>
+                        <input type="password" placeholder="Create Password" name="password" required>
+                        <input type="password" placeholder="Confirm Password" name="password2" required>
+                        <button type="submit" name="register">Sign Up</button>
+                        <p class="signup">Already have an account? <a href="#" onclick="toggleForm();">Sign in</a></p>
+                    </form>
+                </div>
+                <div class="imgBx"><img src="../img/seiyu.jpg"></div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <script>
+        function toggleForm() {
+            section = document.querySelector('section');
+            container = document.querySelector('.container');
+            section.classList.toggle('active');
+            container.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
