@@ -45,39 +45,43 @@ if( isset($_POST["search"]) ) {
 
         <!-- searchbar -->
         <form action="" method="POST">
-            <input type="text" placeholder="Search seiyuu name..." autocomplete="off" autofocus name="keyword" size="30">
-            <button type="submit" name="search">Search</button>
+            <input type="text" placeholder="Search seiyuu name..." autocomplete="off" autofocus name="keyword" size="30" id="keyword" >
+            <button type="submit" name="search" id="search-button" >Search</button>
         </form>
 
-        <table border="1" cellpadding="5" cellspacing:"0" class="table table-hover">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Photo</th>
-                    <th>Name</th>
-                    <th>Birth Date</th>
-                    <th>Prefecture</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+        <div id="container">
 
-            <?php $num = 1 ?>
-            <?php foreach ($seiyuu as $va) : ?>
-                <tbody>
+            <table border="1" cellpadding="5" cellspacing:"0" class="table table-hover">
+                <thead>
                     <tr>
-                        <td><?= $num++ ?></td>
-                        <td><img src="../img/<?= $va["picture"]; ?>" width="85px"></td>
-                        <td><?= $va["name"]; ?></td>
-                        <td><?= $va["date"]; ?></td>
-                        <td><?= $va["prefecture"]; ?></td>
-                        <td>
-                            <a href="../features/update.php?id=<?= $va["id"] ?>">Update</a> |
-                            <a href="../features/delete.php?id=<?= $va["id"]; ?>" onclick="return confirm('Are You Sure?'); ">Delete</a>
-                        </td>
+                        <th>No.</th>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Birth Date</th>
+                        <th>Prefecture</th>
+                        <th>Action</th>
                     </tr>
-                </tbody>
-            <?php endforeach; ?>
-        </table>
+                </thead>
+
+                <?php $num = 1 ?>
+                <?php foreach ($seiyuu as $va) : ?>
+                    <tbody>
+                        <tr>
+                            <td><?= $num++ ?></td>
+                            <td><img src="../img/<?= $va["picture"]; ?>" width="85px"></td>
+                            <td><?= $va["name"]; ?></td>
+                            <td><?= $va["date"]; ?></td>
+                            <td><?= $va["prefecture"]; ?></td>
+                            <td>
+                                <a href="../features/update.php?id=<?= $va["id"] ?>">Update</a> |
+                                <a href="../features/delete.php?id=<?= $va["id"]; ?>" onclick="return confirm('Are You Sure?'); ">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                <?php endforeach; ?>
+            </table>
+
+        </div>
 
     <!-- Pagination -->
         <ul class="pagination justify-content-center">
@@ -103,6 +107,9 @@ if( isset($_POST["search"]) ) {
         </ul>
 
     </div>
+
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script src="../js/script.js"></script>
 </body>
 
 </html>
