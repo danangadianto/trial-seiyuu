@@ -1,6 +1,6 @@
 <?php 
-
-require '../functions/functions.php'
+// Klo salah syntax yah salah syntax, ; nya gada
+require '../functions/functions.php';
 
 $keyword = $_GET["keyword"];
 
