@@ -1,6 +1,6 @@
 <?php 
 
-require '../functions/functions.php'
+require '../functions/functions.php';
 
 $keyword = $_GET["keyword"];
 
